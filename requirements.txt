@@ -1,0 +1,16 @@
+
+langchain
+langchain-mistralai
+
+
+faiss-cpu
+pandas
+numpy
+
+python-dotenv
+boto3
+pymongo
+certifi
+
+
+pytest
