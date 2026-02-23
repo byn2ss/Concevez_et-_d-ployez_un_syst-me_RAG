@@ -1,61 +1,69 @@
-# Concevez_et_deployez_un_systeme_RAG
-## Présentation du projet
+## Présentation du Projet
 
-PulsEvent est une solution de **RAG (Retrieval-Augmented Generation)** permettant d'interroger intelligemment une base de données massive de **2 Go** d'événements culturels (issus d'OpenAgenda).
+PulsEvent est une solution de **RAG (Retrieval-Augmented Generation)** conçue pour transformer une base de données brute et massive (**2 Go de données JSON** issues d'OpenAgenda) en un assistant conversationnel fluide.
 
-Grâce à l'IA, le système comprend les questions complexes des utilisateurs et extrait les informations pertinentes de la base de données pour générer une réponse précise et naturelle, évitant ainsi les "hallucinations" classiques des modèles de langage.
-
----
-
-##  Objectifs & Compétences
-
-Ce projet valide les étapes clés d'un pipeline de données IA :
-
-- **Nettoyage de données massives** : Filtrage et traitement de gros fichiers JSON.
-- **Recherche Sémantique** : Mise en place d'un index vectoriel pour retrouver des événements par contexte.
-- **Qualité logicielle** : Utilisation de tests unitaires et de docstrings pour un code maintenable.
+Contrairement à un chatbot classique, PulsEvent n'invente rien : il va chercher l'information réelle dans les fichiers vectorisés avant de répondre, garantissant ainsi une fiabilité totale des informations (dates, lieux, tarifs des événements parisiens).
 
 ---
 
-##  Architecture Technique
+##  Objectifs & Compétences Validées
 
-Le système repose sur une chaîne technique moderne :
+Ce projet démontre la maîtrise d'un pipeline complet d'ingénierie IA :
 
-- **LLM** : Mistral AI (modèle de langage français performant).
-- **Orchestrateur** : LangChain (pour lier les données et l'IA).
-- **Base Vectorielle** : FAISS (Facebook AI Similarity Search) pour la rapidité de recherche.
-- **Python 3.10+** : Langage principal du projet.
+1. **Ingénierie de la Donnée (Data Engineering)** :
+    - Parsing et filtrage d'un dataset de 2 Go.
+    - Gestion de la mémoire vive lors de la lecture des fichiers JSON.
+2. **Architecture RAG & Vectorisation** :
+    - Mise en œuvre d'embeddings via Mistral AI.
+    - Stockage et indexation haute performance avec **FAISS**.
+3. **Qualité et Fiabilité (QA)** :
+    - Développement de tests unitaires avec `pytest`.
+    - Documentation technique exhaustive (Docstrings Google Style).
 
 ---
 
-##  Structure des fichiers
+##  Architecture Technique & Choix Technologiques
+
+Le système repose sur une "stack" moderne choisie pour sa rapidité et sa compatibilité :
+
+- **Modèle de Langage (LLM)** : `Mistral-7B` (via API Mistral). Choisi pour sa performance exceptionnelle en langue française.
+- **Orchestrateur** : `LangChain`. Utiliser LangChain permet de créer des chaînes de décision (Chains) qui gèrent automatiquement la mémoire de la conversation.
+- **Base Vectorielle** : `FAISS`. Préférée à une base cloud pour ce POC pour sa rapidité de recherche en local (recherche par similarité cosinus).
+- **Environnement** : `Python 3.10+` avec gestion des variables d'environnement via `python-dotenv`.
 
 ---
 
-##  Instructions de déploiement
+##  Structure Détaillée des Fichiers
+
+---
+
+##  Instructions de Déploiement
 
 ### 1. Installation de l'environnement
 
-Clonez le dépôt et installez les bibliothèques nécessaires :
+Clonez le dépôt et créez un environnement virtuel pour isoler les dépendances :
 
 ### 2. Configuration de l'API
 
-Créez un fichier `.env` à la racine du projet et insérez votre clé :
+Le projet nécessite une clé API Mistral. Créez un fichier `.env` à la racine :
 
-### 3. Lancement du pipeline
+### 3. Cycle de vie de la donnée
 
-Suivez les étapes dans l'ordre pour préparer les données :
+Le projet suit un flux précis :
 
 1. **Pré-processing** : `python scripts/pre_processing.py`
+    - Réduit le fichier de 2 Go en un fichier exploitable de quelques Mo.
 2. **Vectorisation** : `python scripts/vectorisation.py`
-3. **Lancer l'assistant** : `python scripts/app.py`
+    - Découpe les événements en "chunks" et les transforme en vecteurs numériques.
+3. **Lancement** : `python scripts/app.py`
+    - Démarre la session de chat.
 
 ---
 
 ##  Tests Unitaires & Qualité
 
-Pour garantir la fiabilité du nettoyage des données, un pipeline de tests est intégré. Lancez-le avec la commande :
+La fiabilité du système est vérifiée à chaque modification majeure :
 
-*Toutes les fonctions sont documentées via des **docstrings** respectant les standards Python.*
-
-
+- **Pipeline de Tests** : `pytest tests/test_pipeline.py`
+- **Couverture** : Nettoyage de texte, validation de format de date, et intégrité des données filtrées.
+- **Documentation** : Toutes les fonctions utilisent des docstrings détaillant les types d'entrée (`Args`) et de sortie (`Returns`).
